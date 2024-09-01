@@ -30,13 +30,13 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/symptom-checker', function () {
-        return Inertia::render('SymptomChecker');
-    })->name('symptom-checker');
+    Route::get('/image', function () {
+        return Inertia::render('Image');
+    })->name('image');
 
-    Route::get('/chat', function () {
-        return Inertia::render('Chat');
-    })->name('chat');
+    Route::get('/text', function () {
+        return Inertia::render('Text');
+    })->name('text');
 });
 
 Route::get('/counter', Counter::class);

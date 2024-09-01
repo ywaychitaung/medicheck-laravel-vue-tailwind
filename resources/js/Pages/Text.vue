@@ -472,20 +472,22 @@ import {
     ChatBubbleOvalLeftEllipsisIcon,
     Cog6ToothIcon,
     XMarkIcon,
-    ChevronDownIcon
+    ChevronDownIcon,
+    PhotoIcon,
+    MagnifyingGlassIcon
 } from '@heroicons/vue/24/outline'
 import axios from 'axios'
 
 const navigation = [
     {
-        name: 'Symptoms Checker',
-        href: '/symptom-checker',
-        icon: CheckBadgeIcon,
+        name: 'Image',
+        href: '/image',
+        icon: PhotoIcon,
         current: false
     },
     {
-        name: 'Chat',
-        href: '/chat',
+        name: 'Text',
+        href: '/text',
         icon: ChatBubbleOvalLeftEllipsisIcon,
         current: true
     }

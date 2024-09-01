@@ -413,6 +413,7 @@ import {
     HomeIcon,
     UsersIcon,
     XMarkIcon,
+    PhotoIcon,
     CheckBadgeIcon,
     ChatBubbleOvalLeftEllipsisIcon
 } from '@heroicons/vue/24/outline'
@@ -536,14 +537,14 @@ const getSymptoms = (disease) => {
 const navigation = [
     // { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
     {
-        name: 'Symptoms Checker',
-        href: '/symptom-checker',
-        icon: CheckBadgeIcon,
+        name: 'Image',
+        href: '/image',
+        icon: PhotoIcon,
         current: true
     },
     {
-        name: 'Chat',
-        href: '/chat',
+        name: 'Text',
+        href: '/text',
         icon: ChatBubbleOvalLeftEllipsisIcon,
         current: false
     }
