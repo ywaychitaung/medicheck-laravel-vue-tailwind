@@ -15,8 +15,6 @@
         "laravel/jetstream": "^4.2",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
-        "livewire/livewire": "^3.5",
-        "openai-php/client": "0.8.5",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {

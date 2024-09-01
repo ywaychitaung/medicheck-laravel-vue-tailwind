@@ -38,5 +38,3 @@ Route::middleware([
         return Inertia::render('Text');
     })->name('text');
 });
-
-Route::get('/counter', Counter::class);
