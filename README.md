@@ -1,84 +1,107 @@
-# MediCheck (Laravel-Vue-Tailwind)
+# MediCheck Web Application
 
-MediCheck-Laravel-Vue-Tailwind web app is a disease prediction website developed using Laravel, Vue.js and Tailwind CSS. Users can enter symptoms into the website to receive disease predictions.
+This repository contains the web application for MediCheck, built using Laravel for the backend, Vue.js for the frontend, and Tailwind CSS for styling. The application provides a user-friendly interface for medical checks, including symptom input and result analysis.
 
-## Getting Started
+## Features
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+-   **User Authentication:** Secure login and registration system using Laravel's built-in authentication.
+-   **Symptom Checker:** Allows users to input symptoms and get results based on an analysis algorithm.
+-   **Responsive Design:** Utilizes Tailwind CSS for a responsive and mobile-friendly UI.
+-   **API Integration:** Seamless integration with backend APIs for disease prediction and symptom analysis.
 
-## Prerequisites
+## Directory Structure
 
-Before you begin, ensure you have met the following requirements:
+```
+medicheck-laravel-vue-tailwind/
+│
+├── app/                   # Laravel application logic
+├── bootstrap/             # Bootstrap files for Laravel
+├── config/                # Configuration files for Laravel
+├── database/              # Database migrations and seeders
+├── node_modules/          # Node.js modules for Vue.js and other dependencies
+├── public/                # Public assets, index.php for Laravel entry
+├── resources/             # Vue.js frontend and Tailwind CSS assets
+├── routes/                # Laravel routes
+├── storage/               # Storage for logs and compiled files
+├── tests/                 # Unit and feature tests
+├── .env.example           # Example environment configuration
+├── .gitignore             # Git ignore rules
+├── artisan                # Laravel CLI tool
+├── composer.json          # PHP dependencies and scripts
+├── package.json           # Node.js dependencies and scripts
+├── webpack.mix.js         # Laravel Mix configuration
+└── README.md              # Project documentation
+```
 
--   PHP >= 8.1 and Composer
+## Setup and Installation
+
+### Prerequisites
+
+-   PHP 8.0 or higher
+-   Composer
 -   Node.js and npm
+-   MySQL
 
-## Installation
+### Installation Steps
 
-Follow these steps to install the project on your local machine:
+1. **Go To This Project**
 
-1. **Clone the repository** (Recommended - Use GitHub CLI)
+    ```bash
+    cd medicheck-laravel-vue-tailwind
+    ```
 
-```
-gh repo clone Team7Labs/medicheck-laravel-vue-tailwind
-```
+2. **Install PHP Dependencies**
 
-```
-cd medicheck-laravel-vue-tailwind
-```
+    ```bash
+    composer install
+    ```
 
-2. **Install PHP dependencies**
+3. **Install Node.js Dependencies**
 
-```
-composer install
-```
+    ```bash
+    npm install
+    ```
 
-3. **Install JavaScript dependencies**
+4. **Create Database in MySQL (Enter in your terminal)**
 
-```
-npm install
-```
+    ```bash
+    mysql -u root -p
+    ```
 
-4. **Copy the environment file**
+    ```bash
+    CREATE DATABASE medicheck;
+    ```
 
-```
-cp .env.example .env
-```
+5. **Run Database Migrations**
 
-Then, open the `.env` file and modify the database configuration and any other environment variables as necessary.
+    Migrate the database:
 
-5. **Generate an application key**
+    ```bash
+    php artisan migrate
+    ```
 
-```
-php artisan key:generate
-```
+6. **Build Assets**
 
-6. **Run database migrations**
+    Compile the assets using Laravel Mix:
 
-```
-php artisan migrate
-```
+    ```bash
+    npm run dev
+    ```
 
-7. **Compile assets with Vite**
+7. **Run the Application**
 
-```
-npm run dev
-```
+    Start the development server:
 
-8. **Serve the application**
+    ```bash
+    php artisan serve
+    ```
 
-```
-php artisan serve
-```
+    The application will be available at `http://127.0.0.1:8000`.
 
 ## Usage
 
-Provide instructions on how to use the project after installation, such as how to access the dashboard, create an account, etc.
-
-## Contributing
-
-Guidelines for contributing to the project. You can include steps for forking the repository, creating a feature branch, and submitting a pull request.
+After setting up the application, you can access it via the browser and start using the features such as user registration, symptom checking, and more.
 
 ## License
 
-Specify the license under which the project is made available.
+This project is coded by Lwin Ko Latt for Master of Science in Applied Computing final project.
