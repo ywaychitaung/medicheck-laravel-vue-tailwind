@@ -106,7 +106,7 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="mt-auto">
+                                        <!-- <li class="mt-auto">
                                             <a
                                                 href="#"
                                                 class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-teal-600"
@@ -117,7 +117,7 @@
                                                 />
                                                 Settings
                                             </a>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </nav>
                             </div>
@@ -172,7 +172,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="mt-auto">
+                        <!-- <li class="mt-auto">
                             <a
                                 href="#"
                                 class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-teal-600"
@@ -183,7 +183,7 @@
                                 />
                                 Settings
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </nav>
             </div>
@@ -216,7 +216,7 @@
                             class="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
                         >
                             <span class="sr-only">View notifications</span>
-                            <BellIcon class="h-6 w-6" aria-hidden="true" />
+                            <!-- <BellIcon class="h-6 w-6" aria-hidden="true" /> -->
                         </button>
 
                         <!-- Separator -->
