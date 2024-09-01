@@ -35,7 +35,8 @@ class User extends Authenticatable
      *
      */
     protected $encrypted = [
-        'name'
+        'name',
+        'email',
     ];
 
     
@@ -56,6 +57,14 @@ class User extends Authenticatable
      * Decrypt the name attribute when accessing it.
      */
     public function getNameAttribute($value)
+    {
+        return Crypt::decryptString($value);
+    }
+
+    /**
+     * Decrypt the email attribute when accessing it.
+     */
+    public function getEmailAttribute($value)
     {
         return Crypt::decryptString($value);
     }

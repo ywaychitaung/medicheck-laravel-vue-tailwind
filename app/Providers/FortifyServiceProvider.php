@@ -11,7 +11,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Fortify;
+use App\Models\User;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -41,6 +44,21 @@ class FortifyServiceProvider extends ServiceProvider
 
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
+        });
+
+        Fortify::authenticateUsing(function (Request $request) {
+            // Fetch all users and compare their decrypted email with the input email
+            $user = User::all()->filter(function ($user) use ($request) {
+                return $user->email === $request->email;
+            })->first();
+        
+            // If a matching user is found, check the password
+            if ($user && Hash::check($request->password, $user->password)) {
+                return $user;
+            }
+        
+            // Return null if authentication fails
+            return null;
         });
     }
 }
