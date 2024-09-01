@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="content">
         <TransitionRoot as="template" :show="sidebarOpen">
             <Dialog
                 class="relative z-50 lg:hidden"
@@ -438,12 +438,22 @@
                                     {{ result.advice }}
                                 </p>
                             </div>
-                            <button
-                                @click="reloadPage"
-                                class="mt-8 bg-teal-600 text-white px-4 py-2 rounded"
-                            >
-                                Test Again
-                            </button>
+
+                            <div class="space-x-8">
+                                <button
+                                    @click="reloadPage"
+                                    class="mt-8 bg-teal-600 text-white px-4 py-2 rounded"
+                                >
+                                    Test Again
+                                </button>
+
+                                <button
+                                    @click="downloadPDF"
+                                    class="mt-4 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+                                >
+                                    Download PDF
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -477,6 +487,46 @@ import {
     MagnifyingGlassIcon
 } from '@heroicons/vue/24/outline'
 import axios from 'axios'
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
+import { usePage } from '@inertiajs/vue3'
+
+const downloadPDF = () => {
+    const { props } = usePage() // Access the Inertia page props
+    const userName = props.auth.user.name.replace(/\s+/g, '')
+
+    // Get the current date and time
+    const now = new Date()
+    const formattedDateTime = now
+        .toISOString()
+        .replace(/[-T:.Z]/g, '')
+        .slice(0, 14)
+
+    // Combine user name and formatted date-time for the file name
+    const fileName = `${userName}${formattedDateTime}.pdf`
+
+    const content = document.getElementById('content')
+
+    if (!content) {
+        console.error("Element with id 'content' not found in the DOM.")
+        return
+    }
+
+    html2canvas(content, { scale: 2 })
+        .then((canvas) => {
+            const imgData = canvas.toDataURL('image/png')
+            const pdf = new jsPDF('p', 'mm', 'a4')
+            const imgProps = pdf.getImageProperties(imgData)
+            const pdfWidth = pdf.internal.pageSize.getWidth()
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width
+
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight)
+            pdf.save(fileName)
+        })
+        .catch((error) => {
+            console.error('Error during PDF creation:', error)
+        })
+}
 
 const navigation = [
     {
@@ -507,7 +557,7 @@ const searchQuery = ref('')
 onMounted(async () => {
     try {
         const response = await axios.get(
-            'http://127.0.0.1:5000/api/symptoms-list'
+            'http://localhost:5000/api/symptoms-list'
         )
         symptoms.value = response.data
     } catch (error) {
@@ -551,7 +601,7 @@ const submitSymptoms = async () => {
 
     try {
         const response = await axios.post(
-            'http://127.0.0.1:5000/api/submit_symptoms',
+            'http://localhost:5000/api/submit_symptoms',
             {
                 symptoms: selectedSymptoms.value,
                 days: days.value
