@@ -285,6 +285,33 @@
             <main class="py-10">
                 <div class="px-4 sm:px-6 lg:px-8">
                     <div class="col-span-full">
+                        <!-- Show Selected Symptoms -->
+                        <div v-if="selectedSymptoms.length > 0" class="mb-8">
+                            <h3 class="text-lg font-semibold">
+                                Selected Symptoms
+                            </h3>
+                            <div class="mt-4 flex flex-wrap gap-4">
+                                <div
+                                    v-for="symptom in selectedSymptoms"
+                                    :key="symptom"
+                                    class="flex items-center bg-teal-600 text-white px-3 py-1 rounded-full"
+                                >
+                                    <span class="text-sm">{{
+                                        symptom.replace(/_/g, ' ')
+                                    }}</span>
+                                    <button
+                                        @click="toggleSymptomSelection(symptom)"
+                                        class="ml-2 text-white hover:text-gray-300"
+                                    >
+                                        <XMarkIcon
+                                            class="h-4 w-4"
+                                            aria-hidden="true"
+                                        />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Symptom Selection -->
                         <div v-if="!result">
                             <p class="text-2xl font-bold">Search</p>
