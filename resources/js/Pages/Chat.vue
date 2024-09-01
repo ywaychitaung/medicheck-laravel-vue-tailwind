@@ -284,104 +284,98 @@
             <main class="py-10">
                 <div class="px-4 sm:px-6 lg:px-8">
                     <div class="col-span-full">
-                        <label
-                            for="file-upload"
-                            class="block text-sm font-medium leading-6 text-gray-900"
-                            >Upload Image</label
-                        >
-                        <div
-                            v-if="!imagePreview"
-                            class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
-                        >
-                            <div class="text-center">
-                                <input
-                                    id="file-upload"
-                                    name="file-upload"
-                                    type="file"
-                                    @change="handleFileUpload"
-                                    class="sr-only"
-                                />
+                        <!-- Symptom Selection -->
+                        <div v-if="!result">
+                            <h3 class="text-lg font-semibold">
+                                Select Symptoms
+                            </h3>
+                            <div class="mt-4 grid grid-cols-4 gap-4">
                                 <label
-                                    for="file-upload"
-                                    class="relative cursor-pointer rounded-md bg-white font-semibold text-teal-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-teal-600 focus-within:ring-offset-2 hover:text-teal-500"
+                                    v-for="symptom in symptoms"
+                                    :key="symptom"
+                                    class="inline-flex items-center space-x-2"
                                 >
-                                    <span>Upload an image</span>
+                                    <input
+                                        type="checkbox"
+                                        :value="symptom"
+                                        v-model="selectedSymptoms"
+                                        class="form-checkbox h-4 w-4 text-teal-600"
+                                    />
+                                    <span class="text-sm text-gray-700">{{
+                                        symptom
+                                    }}</span>
                                 </label>
-                                <p class="text-xs leading-5 text-gray-600">
-                                    PNG, JPG, GIF up to 10MB
+                            </div>
+
+                            <!-- Input Days -->
+                            <div class="mt-16">
+                                <label
+                                    for="days"
+                                    class="block text-sm font-medium leading-6 text-gray-900"
+                                >
+                                    Number of Days
+                                </label>
+                                <input
+                                    v-model="days"
+                                    id="days"
+                                    type="number"
+                                    min="1"
+                                    class="mt-1 block w-1/4 rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
+                                    placeholder="Enter number of days"
+                                />
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button
+                                @click="submitSymptoms"
+                                class="mt-4 bg-teal-600 text-white px-4 py-2 rounded"
+                            >
+                                Submit
+                            </button>
+                        </div>
+
+                        <!-- Display Results -->
+                        <div v-if="result" class="mt-8">
+                            <h3 class="text-lg font-bold">
+                                Prediction:
+                                <span class="text-red-500">{{
+                                    result.disease
+                                }}</span>
+                            </h3>
+                            <div class="mt-6">
+                                <h4 class="text-md font-semibold">
+                                    Description:
+                                </h4>
+                                <p class="mt-2 text-gray-700">
+                                    {{ result.description }}
                                 </p>
                             </div>
-                        </div>
-
-                        <!-- Preview of the uploaded image -->
-                        <div
-                            v-if="imagePreview"
-                            class="mt-2 flex justify-center"
-                        >
-                            <img
-                                :src="imagePreview"
-                                alt="Uploaded image preview"
-                                class="rounded-lg border border-gray-200 max-h-96"
-                            />
-                        </div>
-
-                        <button
-                            v-if="!predictionResult"
-                            @click="submitImage"
-                            class="mt-4 bg-teal-600 text-white px-4 py-2 rounded"
-                        >
-                            Submit
-                        </button>
-                    </div>
-
-                    <div v-if="predictionResult" class="mt-8">
-                        <h3 class="text-lg font-bold">
-                            Prediction:
-                            <span class="text-red-500">{{
-                                predictionResult
-                            }}</span>
-                        </h3>
-                        <!-- <h4 class="text-md font-semibold mt-4">
-                            Probabilities:
-                        </h4>
-                        <ul class="list-disc ml-5">
-                            <li
-                                v-for="(prob, disease) in probabilities"
-                                :key="disease"
+                            <div class="mt-6">
+                                <h4 class="text-md font-semibold">
+                                    Precautions:
+                                </h4>
+                                <ul class="list-disc ml-5">
+                                    <li
+                                        v-for="precaution in result.precautions"
+                                        :key="precaution"
+                                    >
+                                        {{ precaution }}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-6">
+                                <h4 class="text-md font-semibold">Advice:</h4>
+                                <p class="mt-2 text-gray-700">
+                                    {{ result.advice }}
+                                </p>
+                            </div>
+                            <button
+                                @click="reloadPage"
+                                class="mt-8 bg-teal-600 text-white px-4 py-2 rounded"
                             >
-                                {{ disease }}: {{ (prob * 100).toFixed(2) }}%
-                            </li>
-                        </ul> -->
-
-                        <!-- Display Symptoms -->
-                        <div class="mt-6">
-                            <h4 class="text-md font-semibold">
-                                Possible Symptoms:
-                            </h4>
-                            <ul class="list-disc ml-5">
-                                <li
-                                    v-for="symptom in diseaseSymptoms"
-                                    :key="symptom"
-                                >
-                                    {{ symptom }}
-                                </li>
-                            </ul>
+                                Test Again
+                            </button>
                         </div>
-
-                        <!-- Display Cure Information -->
-                        <div class="mt-6">
-                            <h4 class="text-md font-semibold">How to cure:</h4>
-                            <p class="mt-2 text-gray-700">
-                                {{ diseaseCureText }}
-                            </p>
-                        </div>
-
-                        <button
-                            @click="reloadPage"
-                            class="mt-8 bg-teal-600 text-white px-4 py-2 rounded"
-                        >
-                            Test Again
-                        </button>
                     </div>
                 </div>
             </main>
@@ -390,7 +384,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import {
     Dialog,
@@ -419,133 +413,19 @@ import {
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 import axios from 'axios'
 
-const file = ref(null)
-const imagePreview = ref(null) // To hold the image preview URL
-const predictionResult = ref(null)
-const probabilities = ref(null)
-const diseaseCureText = ref('') // To hold the cure information based on the prediction
-const diseaseSymptoms = ref([]) // To hold the symptoms information based on the prediction
-
-const handleFileUpload = (event) => {
-    file.value = event.target.files[0]
-    if (file.value) {
-        imagePreview.value = URL.createObjectURL(file.value)
-    }
-}
-
-const submitImage = async () => {
-    if (!file.value) {
-        alert('Please upload an image')
-        return
-    }
-
-    const formData = new FormData()
-    formData.append('image', file.value)
-
-    try {
-        const response = await axios.post(
-            'http://127.0.0.1:5000/api/predict',
-            formData,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }
-        )
-
-        predictionResult.value = response.data.prediction
-        probabilities.value = response.data.probabilities
-
-        // Get the cure information based on the prediction
-        diseaseCureText.value = getCureText(predictionResult.value)
-        diseaseSymptoms.value = getSymptoms(predictionResult.value)
-    } catch (error) {
-        console.error('There was an error!', error)
-        alert('Failed to get prediction. Please try again.')
-    }
-}
-
-// Function to return the cure information based on the disease
-const getCureText = (disease) => {
-    const cures = {
-        shingles:
-            'Shingles can be treated with antiviral medications like acyclovir, valacyclovir, or famciclovir. Pain management is also important, and it’s recommended to keep the rash clean and dry. Contact a healthcare provider if you suspect shingles.',
-        'athlete-foot':
-            'Athlete’s foot is usually treated with antifungal creams, sprays, or powders. Keeping the feet clean and dry is important, and it may be necessary to change socks frequently.',
-        cellulitis:
-            'Cellulitis is typically treated with antibiotics. Elevating the affected area and using pain relievers like ibuprofen can help reduce discomfort. It’s important to seek medical attention if symptoms worsen.',
-        chickenpox:
-            'Chickenpox treatment primarily involves relieving symptoms. Calamine lotion, antihistamines, and oatmeal baths can reduce itching. Staying hydrated and resting is also important. In severe cases, antiviral medication may be prescribed.',
-        'cutaneous-larva-migrans':
-            'This condition is treated with antiparasitic medications like albendazole or ivermectin. Avoid walking barefoot in areas where the larvae may be present.',
-        impetigo:
-            'Impetigo is usually treated with topical or oral antibiotics. Keeping the affected area clean and avoiding touching the sores can help prevent spreading.',
-        'nail-fungus':
-            'Nail fungus is treated with antifungal medications, which may be topical or oral. It can take several months for the infection to clear.',
-        ringworm:
-            'Ringworm is treated with antifungal creams or oral medications, depending on the severity. Keeping the affected area clean and dry is crucial.',
-        Lung_Opacity:
-            'Treatment for lung opacity depends on the underlying cause, which could range from infections to chronic diseases. A thorough evaluation by a healthcare provider is necessary to determine the appropriate treatment.',
-        'Viral Pneumonia':
-            'Viral pneumonia is usually treated with rest, fluids, and over-the-counter medications to relieve symptoms. In severe cases, antiviral medications or hospitalization may be required.'
-    }
-
-    return cures[disease] || 'No cure information available for this condition.'
-}
-
-// Function to return the symptoms based on the disease
-const getSymptoms = (disease) => {
-    const symptoms = {
-        shingles: [
-            'Pain, burning, numbness or tingling',
-            'Sensitivity to touch',
-            'A red rash that begins a few days after the pain',
-            'Fluid-filled blisters that break open and crust over'
-        ],
-        'athlete-foot': [
-            'Itching, stinging, and burning between your toes',
-            'Itchy blisters',
-            'Cracking and peeling skin',
-            'Dryness and scaling on the soles of your feet'
-        ],
-        cellulitis: [
-            'Red area of skin that tends to expand',
-            'Swelling',
-            'Tenderness',
-            'Pain',
-            'Warmth',
-            'Fever'
-        ],
-        chickenpox: [
-            'Fever',
-            'Loss of appetite',
-            'Headache',
-            'Tiredness and a general feeling of being unwell',
-            'Red spots that develop into fluid-filled blisters'
-        ]
-        // Add symptoms for other conditions...
-    }
-
-    return (
-        symptoms[disease] || [
-            'No symptoms information available for this condition.'
-        ]
-    )
-}
-
 const navigation = [
     // { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
     {
         name: 'Symptoms Checker',
         href: '/symptom-checker',
         icon: CheckBadgeIcon,
-        current: true
+        current: false
     },
     {
         name: 'Chat',
         href: '/chat',
         icon: ChatBubbleOvalLeftEllipsisIcon,
-        current: false
+        current: true
     }
 ]
 
@@ -555,6 +435,46 @@ const userNavigation = [
 ]
 
 const sidebarOpen = ref(false)
+
+const symptoms = ref([])
+const selectedSymptoms = ref([])
+const days = ref(1)
+const result = ref(null)
+
+onMounted(async () => {
+    // Fetch the list of symptoms from the API
+    try {
+        const response = await axios.get(
+            'http://127.0.0.1:5000/api/symptoms-list'
+        )
+        symptoms.value = response.data
+    } catch (error) {
+        console.error('Error fetching symptoms:', error)
+    }
+})
+
+const submitSymptoms = async () => {
+    if (selectedSymptoms.value.length === 0 || days.value < 1) {
+        alert(
+            'Please select at least one symptom and enter a valid number of days.'
+        )
+        return
+    }
+
+    try {
+        const response = await axios.post(
+            'http://127.0.0.1:5000/api/submit_symptoms',
+            {
+                symptoms: selectedSymptoms.value,
+                days: days.value
+            }
+        )
+
+        result.value = response.data
+    } catch (error) {
+        console.error('Error submitting symptoms:', error)
+    }
+}
 
 const handleLogout = () => {
     Inertia.post(route('logout'))

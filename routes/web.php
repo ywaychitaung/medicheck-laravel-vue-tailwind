@@ -3,7 +3,6 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Livewire\Chat;
 use App\Livewire\Counter;
 
 /*
@@ -34,7 +33,10 @@ Route::middleware([
     Route::get('/symptom-checker', function () {
         return Inertia::render('SymptomChecker');
     })->name('symptom-checker');
+
+    Route::get('/chat', function () {
+        return Inertia::render('Chat');
+    })->name('chat');
 });
 
-Route::get('/chat', Chat::class);
 Route::get('/counter', Counter::class);
