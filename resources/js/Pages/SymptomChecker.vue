@@ -231,7 +231,9 @@
                                 <span class="sr-only">Open user menu</span>
                                 <img
                                     class="h-8 w-8 rounded-full bg-gray-50"
-                                    src="https://res.cloudinary.com/ywaychitaung/image/upload/v1722800986/lwinko.jpg"
+                                    :src="`https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                        $page.props.auth.user.name
+                                    )}`"
                                     alt="Profile"
                                 />
                                 <span class="hidden lg:flex lg:items-center">
@@ -373,6 +375,13 @@
                                 {{ diseaseCureText }}
                             </p>
                         </div>
+
+                        <button
+                            @click="reloadPage"
+                            class="mt-8 bg-teal-600 text-white px-4 py-2 rounded"
+                        >
+                            Test Again
+                        </button>
                     </div>
                 </div>
             </main>
@@ -541,7 +550,7 @@ const navigation = [
 ]
 
 const userNavigation = [
-    { name: 'Profile', href: '#' },
+    // { name: 'Profile', href: '#' },
     { name: 'Log out', href: '#', action: () => handleLogout() }
 ]
 
@@ -549,5 +558,9 @@ const sidebarOpen = ref(false)
 
 const handleLogout = () => {
     Inertia.post(route('logout'))
+}
+
+const reloadPage = () => {
+    window.location.reload()
 }
 </script>
